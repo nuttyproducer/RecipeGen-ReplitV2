@@ -1,7 +1,6 @@
-
 import { Recipe } from '@/types/recipe';
 import { supabase } from '@/services/supabase';
-import { generateRecipeWithDeepSeek } from './deepseek';
+import { mockRecipes, generateMockRecipes } from './mockData';
 
 export const fetchRecipesFromDeepSeek = async (
   dish_type: string,
@@ -9,15 +8,24 @@ export const fetchRecipesFromDeepSeek = async (
   dietaryTags: string[] = []
 ): Promise<Recipe[]> => {
   try {
-    const prompt = generatePrompt(dish_type, cuisines, dietaryTags);
-    const recipes = await generateRecipeWithDeepSeek(dish_type, cuisines, dietaryTags);
-    
+    const { data, error } = await supabase.functions.invoke('generate-recipe', {
+      body: {
+        dish_type,
+        cuisines,
+        dietary_tags: dietaryTags
+      }
+    });
+
+    if (error) {
+      throw error;
+    }
+
     // Save recipes to database
-    for (const recipe of recipes) {
+    for (const recipe of data) {
       await saveRecipeToDatabase(recipe);
     }
-    
-    return recipes;
+
+    return data;
   } catch (error) {
     console.error('Error generating recipes:', error);
     // Use fallback mock data in development
@@ -48,61 +56,4 @@ const saveRecipeToDatabase = async (recipe: Recipe) => {
     console.error('Error saving recipe:', err);
     throw err;
   }
-};
-
-const generatePrompt = (
-  dish_type: string,
-  cuisines: string[],
-  dietary_tags: string[]
-): string => {
-  let prompt = `Generate two unique ${dish_type} recipes`;
-
-  if (cuisines.length > 0) {
-    prompt += ` with a fusion of ${cuisines.join(' and ')} cuisines`;
-  }
-
-  if (dietary_tags.length > 0) {
-    prompt += `\nMust follow these dietary requirements: ${dietary_tags.join(', ')}`;
-  }
-
-  return prompt;
-};
-
-// Temporary mock implementation until DeepSeek API is integrated
-const generateMockRecipes = (
-  dish_type: string,
-  cuisines: string[],
-  dietary_tags: string[]
-): Promise<Recipe[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const recipes: Recipe[] = [
-        {
-          id: `recipe-${Date.now()}-1`,
-          title: `${cuisines.join('-')} ${dish_type}`,
-          ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
-          steps: ['Step 1', 'Step 2', 'Step 3'],
-          dish_type: dish_type as any,
-          prep_time_min: 30,
-          cooking_time: '30 minutes',
-          flavor_text: 'A delicious fusion recipe',
-          cuisines: cuisines,
-          dietary_tags: dietary_tags
-        },
-        {
-          id: `recipe-${Date.now()}-2`,
-          title: `Alternative ${cuisines.join('-')} ${dish_type}`,
-          ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C'],
-          steps: ['Step A', 'Step B', 'Step C'],
-          dish_type: dish_type as any,
-          prep_time_min: 45,
-          cooking_time: '45 minutes',
-          flavor_text: 'Another delicious fusion recipe',
-          cuisines: cuisines,
-          dietary_tags: dietary_tags
-        }
-      ];
-      resolve(recipes);
-    }, 1000);
-  });
 };
