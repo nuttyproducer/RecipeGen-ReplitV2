@@ -1,0 +1,86 @@
+The above error occurred in the <ContextNavigator> component:
+
+    at ContextNavigator (https://bec87464-d756-4a6f-9718-b59ae7b29ace-00-31yoz04ghuivw.riker.replit.dev/node_modules/expo-router/entry.bundle?platform=web&dev=true&hot=false&transform.engine=hermes&transform.routerRoot=app&unstable_transformProfile=hermes-stable:89313:5)
+    at ExpoRoot (https://bec87464-d756-4a6f-9718-b59ae7b29ace-00-31yoz04ghuivw.riker.replit.dev/node_modules/expo-router/entry.bundle?platform=web&dev=true&hot=false&transform.engine=hermes&transform.routerRoot=app&unstable_transformProfile=hermes-stable:89261:14)
+    at _HelmetProvider (https://bec87464-d756-4a6f-9718-b59ae7b29ace-00-31yoz04ghuivw.riker.replit.dev/node_modules/expo-router/entry.bundle?platform=web&dev=true&hot=false&transform.engine=hermes&transform.routerRoot=app&unstable_transformProfile=hermes-stable:267737:7)
+    at App
+    at LogBoxStateSubscription (https://bec87464-d756-4a6f-9718-b59ae7b29ace-00-31yoz04ghuivw.riker.replit.dev/node_modules/expo-router/entry.bundle?platform=web&dev=true&hot=false&transform.engine=hermes&transform.routerRoot=app&unstable_transformProfile=hermes-stable:3954:9)
+    at ErrorOverlay
+    at withDevTools(ErrorOverlay)
+    at AppContainer (https://bec87464-d756-4a6f-9718-b59ae7b29ace-00-31yoz04ghuivw.riker.replit.dev/node_modules/expo-router/entry.bundle?platform=web&dev=true&hot=false&transform.engine=hermes&transform.routerRoot=app&unstable_transformProfile=hermes-stable:76525:5)
+
+React will try to recreate this component tree from scratch using the error boundary you provided, LogBoxStateSubscription.
+Disconnected from Metro (1006: "").
+
+To reconnect:
+- Ensure that Metro is running and available on the same network
+- Reload this app (will trigger further help if Metro cannot be connected to)
+      
+Missing environment variable: EXPO_PUBLIC_SUPABASE_URL
+Missing environment variable: EXPO_PUBLIC_SUPABASE_URL
+The above error occurred in the <ContextNavigator> component:
+
+    at ContextNavigator (https://bec87464-d756-4a6f-9718-b59ae7b29ace-00-31yoz04ghuivw.riker.replit.dev/node_modules/expo-router/entry.bundle?platform=web&dev=true&hot=false&transform.engine=hermes&transform.routerRoot=app&unstable_transformProfile=hermes-stable:89313:5)
+    at ExpoRoot (https://bec87464-d756-4a6f-9718-b59ae7b29ace-00-31yoz04ghuivw.riker.replit.dev/node_modules/expo-router/entry.bundle?platform=web&dev=true&hot=false&transform.engine=hermes&transform.routerRoot=app&unstable_transformProfile=hermes-stable:89261:14)
+    at _HelmetProvider (https://bec87464-d756-4a6f-9718-b59ae7b29ace-00-31yoz04ghuivw.riker.replit.dev/node_modules/expo-router/entry.bundle?platform=web&dev=true&hot=false&transform.engine=hermes&transform.routerRoot=app&unstable_transformProfile=hermes-stable:267737:7)
+    at App
+    at LogBoxStateSubscription (https://bec87464-d756-4a6f-9718-b59ae7b29ace-00-31yoz04ghuivw.riker.replit.dev/node_modules/expo-router/entry.bundle?platform=web&dev=true&hot=false&transform.engine=hermes&transform.routerRoot=app&unstable_transformProfile=hermes-stable:3954:9)
+    at ErrorOverlay
+    at withDevTools(ErrorOverlay)
+    at AppContainer (https://bec87464-d756-4a6f-9718-b59ae7b29ace-00-31yoz04ghuivw.riker.replit.dev/node_modules/expo-router/entry.bundle?platform=web&dev=true&hot=false&transform.engine=hermes&transform.routerRoot=app&unstable_transformProfile=hermes-stable:76525:5)
+
+React will try to recreate this component tree from scratch using the error boundary you provided, LogBoxStateSubscription.
+5
+
+Log 1 of 5
+
+Console Error
+Can't perform a React state update on a component that hasn't mounted yet. This indicates that you have a side-effect in your render function that asynchronously later calls tries to update the component. Move this work to useEffect instead.
+Call Stack
+addLog
+node_modules/@expo/metro-runtime/src/error-overlay/Data/LogBoxData.tsx:192:30
+registerError
+node_modules/@expo/metro-runtime/src/error-overlay/LogBox.web.ts:146:20
+console.error
+node_modules/@expo/metro-runtime/src/error-overlay/LogBox.web.ts:59:27
+printWarning
+node_modules/react-dom/cjs/react-dom.development.js:86:30
+error
+node_modules/react-dom/cjs/react-dom.development.js:60:7
+warnAboutUpdateOnNotYetMountedFiberInDEV
+node_modules/react-dom/cjs/react-dom.development.js:27441:7
+markUpdateLaneFromFiberToRoot
+node_modules/react-dom/cjs/react-dom.development.js:14526:11
+enqueueConcurrentClassUpdate
+node_modules/react-dom/cjs/react-dom.development.js:14489:10
+enqueueUpdate
+node_modules/react-dom/cjs/react-dom.development.js:14638:12
+classComponentUpdater.enqueueSetState
+node_modules/react-dom/cjs/react-dom.development.js:17922:16
+Component.prototype.setState
+node_modules/react/cjs/react.development.js:354:16
+Promise$argument_0
+node_modules/@expo/metro-runtime/src/error-overlay/Data/LogBoxData.tsx:400:14
+new Promise
+<anonymous>
+LogBoxStateSubscription#retry
+node_modules/@expo/metro-runtime/src/error-overlay/Data/LogBoxData.tsx:399:14
+emitter.addListener$argument_1
+node_modules/@expo/metro-runtime/src/error-overlay/Data/LogBoxData.tsx:377:18
+emit
+node_modules/react-native-web/dist/vendor/react-native/vendor/emitter/EventEmitter.js:67:31
+hide
+node_modules/@expo/metro-runtime/src/LoadingView.ts:18:22
+client.on$argument_1
+node_modules/@expo/metro-runtime/src/HMRClient.ts:195:19
+emit
+node_modules/metro-runtime/src/modules/vendor/eventemitter3.js:77:29
+_ws.onmessage
+node_modules/metro-runtime/src/modules/HMRClient.js:48:16
+Collapse 19 frames
+Component Stack
+LogBoxStateSubscription#constructor
+node_modules/@expo/metro-runtime/src/error-overlay/Data/LogBoxData.tsx:372:7
+AppContainer
+shim:react-native-web/dist/exports/AppRegistry/AppContainer.js
+Collapse all 2 frames
