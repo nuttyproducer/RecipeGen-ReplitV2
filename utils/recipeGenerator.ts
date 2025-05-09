@@ -16,6 +16,7 @@ export const fetchRecipesFromDeepSeek = async (
       },
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY}`
       }
     });
 
@@ -25,6 +26,7 @@ export const fetchRecipesFromDeepSeek = async (
     }
 
     if (!data || !Array.isArray(data)) {
+      console.error('Invalid response format:', data);
       throw new Error('Invalid response format from Edge Function');
     }
 
@@ -38,9 +40,10 @@ export const fetchRecipesFromDeepSeek = async (
     console.error('Error generating recipes:', error);
     // Use fallback mock data in development
     if (process.env.NODE_ENV === 'development') {
+      console.log('Using mock data as fallback');
       return generateMockRecipes(dish_type, cuisines, dietaryTags);
     }
-    throw new Error('Failed to generate recipes. Please try again later.');
+    throw error;
   }
 };
 
@@ -59,7 +62,10 @@ const saveRecipeToDatabase = async (recipe: Recipe) => {
       is_favorite: false
     });
 
-    if (error) throw error;
+    if (error) {
+      console.error('Error saving recipe:', error);
+      throw error;
+    }
   } catch (err) {
     console.error('Error saving recipe:', err);
     throw err;

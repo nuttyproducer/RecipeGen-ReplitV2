@@ -27,6 +27,7 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 
     if (!supabaseUrl || !supabaseKey) {
+      console.error('Missing Supabase environment variables');
       throw new Error('Missing required Supabase environment variables');
     }
 
@@ -46,6 +47,8 @@ serve(async (req) => {
 
     const prompt = generatePrompt(dish_type, cuisines, dietary_tags);
 
+    console.log('Making request to DeepSeek API...');
+    
     // Call DeepSeek API with proper error handling
     const response = await fetch(DEEPSEEK_API_ENDPOINT, {
       method: 'POST',
