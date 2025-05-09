@@ -22,6 +22,8 @@ serve(async (req) => {
     // Get request body
     const { dish_type, cuisines, dietary_tags } = await req.json();
 
+    console.log('Received request:', { dish_type, cuisines, dietary_tags });
+
     // Initialize Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL');
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
@@ -44,6 +46,8 @@ serve(async (req) => {
       console.error('Secret fetch error:', secretError);
       throw new Error('Failed to fetch DeepSeek API key');
     }
+
+    console.log('Successfully fetched DeepSeek API key');
 
     const prompt = generatePrompt(dish_type, cuisines, dietary_tags);
 
@@ -80,7 +84,10 @@ serve(async (req) => {
     }
 
     const data = await response.json();
+    console.log('Received response from DeepSeek API');
+
     const recipes = parseRecipeResponse(data);
+    console.log('Successfully parsed recipes:', recipes.length);
 
     return new Response(JSON.stringify(recipes), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
