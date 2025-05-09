@@ -1,4 +1,3 @@
-
 import { supabase } from '@/services/supabase';
 import { Recipe } from '@/types/recipe';
 
@@ -13,11 +12,10 @@ export async function generateRecipeWithDeepSeek(
     // Get API key from secrets table
     const { data: secrets, error: secretError } = await supabase
       .from('secrets')
-      .select('value')
-      .eq('key', 'DEEPSEEK_API_KEY')
+      .select('deepseek_api_key')
       .single();
 
-    if (secretError || !secrets?.value) {
+    if (secretError || !secrets?.deepseek_api_key) {
       console.error('Failed to fetch DeepSeek API key:', secretError);
       throw new Error('DeepSeek API key not configured. Please contact administrator.');
     }
@@ -28,7 +26,7 @@ export async function generateRecipeWithDeepSeek(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${secrets.value}`
+        'Authorization': `Bearer ${secrets.deepseek_api_key}`
       },
       body: JSON.stringify({
         model: "deepseek-chat",
