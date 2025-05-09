@@ -13,11 +13,19 @@ export const fetchRecipesFromDeepSeek = async (
         dish_type,
         cuisines,
         dietary_tags: dietaryTags
+      },
+      headers: {
+        'Content-Type': 'application/json',
       }
     });
 
     if (error) {
+      console.error('Edge Function error:', error);
       throw error;
+    }
+
+    if (!data || !Array.isArray(data)) {
+      throw new Error('Invalid response format from Edge Function');
     }
 
     // Save recipes to database

@@ -23,24 +23,30 @@ serve(async (req) => {
     const { dish_type, cuisines, dietary_tags } = await req.json();
 
     // Initialize Supabase client
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+
+    if (!supabaseUrl || !supabaseKey) {
+      throw new Error('Missing required Supabase environment variables');
+    }
+
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
     // Get DeepSeek API key from secrets table
     const { data: secretData, error: secretError } = await supabaseClient
       .from('secrets')
       .select('deepseek_api_key')
+      .limit(1)
       .single();
 
     if (secretError || !secretData?.deepseek_api_key) {
+      console.error('Secret fetch error:', secretError);
       throw new Error('Failed to fetch DeepSeek API key');
     }
 
     const prompt = generatePrompt(dish_type, cuisines, dietary_tags);
 
-    // Call DeepSeek API
+    // Call DeepSeek API with proper error handling
     const response = await fetch(DEEPSEEK_API_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -65,7 +71,9 @@ serve(async (req) => {
     });
 
     if (!response.ok) {
-      throw new Error(`DeepSeek API error: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('DeepSeek API error:', errorText);
+      throw new Error(`DeepSeek API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
@@ -75,6 +83,7 @@ serve(async (req) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
+    console.error('Edge Function error:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       {
